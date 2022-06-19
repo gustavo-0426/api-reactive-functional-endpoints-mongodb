@@ -1,0 +1,5 @@
+---
+spring:
+  profiles: dev
+
+## Include your configuration to Development Environment

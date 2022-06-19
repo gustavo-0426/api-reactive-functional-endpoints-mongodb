@@ -1,0 +1,6 @@
+---
+spring:
+  profiles: prod
+
+
+## Include your configuration to Production Environment
