@@ -1,5 +1,10 @@
 ---
 spring:
   profiles: dev
+  data:
+    mongodb:
+      host: localhost
+      port: 9990
+      database: testdb
 
 ## Include your configuration to Development Environment

@@ -1,2 +1,2 @@
-# template-spring-webflux
-This is a template for spring webflux project
+# reactive-api-functional
+This is an api with functional endpoints
