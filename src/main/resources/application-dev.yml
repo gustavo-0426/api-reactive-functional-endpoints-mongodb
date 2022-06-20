@@ -7,7 +7,7 @@ spring:
       port: 9990
       database: testdb
 config:
-  routes:
+  path:
     list: /api/routerFunction/product
     detail: /api/routerFunction/product/{id}
     save: /api/routerFunction/product
