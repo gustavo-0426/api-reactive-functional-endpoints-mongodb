@@ -6,5 +6,12 @@ spring:
       host: localhost
       port: 9990
       database: testdb
+config:
+  routes:
+    list: /api/routerFunction/product
+    detail: /api/routerFunction/product/{id}
+    save: /api/routerFunction/product
+    update: /api/routerFunction/product/{id}
+    delete: /api/routerFunction/product/{id}
 
 ## Include your configuration to Development Environment
