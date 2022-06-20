@@ -1,26 +1,23 @@
 package com.co.softworld.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
-@Document(collection = "product")
-public class Product {
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "category")
+public class Category {
 
     @Id
-    private String id;
     @NotEmpty
+    private String id;
     private String name;
-    @NotNull
-    private Double price;
-    @Valid
-    private Category category;
-    private String photo;
 }

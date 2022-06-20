@@ -12,14 +12,36 @@ import reactor.core.publisher.Mono;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
-public class ProductHandler {
+public class ProductHandler implements IProductHandler {
 
     @Autowired
     private IProductService productService;
 
-    public Mono<ServerResponse> list(ServerRequest request) {
+    @Override
+    public Mono<ServerResponse> list() {
         return ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(productService.findAll(), Product.class);
     }
+
+    @Override
+    public Mono<ServerResponse> detail(ServerRequest request) {
+        return productService.findById(request.pathVariable("id"))
+                .flatMap(product -> ServerResponse
+                        .ok()
+                        .bodyValue(product)
+                ).switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+    @Override
+    public Mono<ServerResponse> save(ServerRequest request) {
+        Mono<Product> productMono = request.bodyToMono(Product.class);
+        return productMono
+                .flatMap(product -> productService.save(product))
+                .flatMap(product -> ServerResponse
+                        .created(request.uri())
+                        .bodyValue(product))
+                .switchIfEmpty(ServerResponse.badRequest().build());
+    }
+
 }
