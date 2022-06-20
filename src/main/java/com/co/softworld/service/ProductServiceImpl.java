@@ -39,6 +39,7 @@ public class ProductServiceImpl implements IProductService {
     public Mono<Product> save(Product product) {
         return productRepository.save(product);
     }
+
     @Override
     public Mono<Void> remove(Product product) {
         return productRepository.delete(product);

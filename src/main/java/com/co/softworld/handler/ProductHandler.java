@@ -40,8 +40,33 @@ public class ProductHandler implements IProductHandler {
                 .flatMap(product -> productService.save(product))
                 .flatMap(product -> ServerResponse
                         .created(request.uri())
-                        .bodyValue(product))
-                .switchIfEmpty(ServerResponse.badRequest().build());
+                        .bodyValue(product));
+    }
+
+    @Override
+    public Mono<ServerResponse> update(ServerRequest request) {
+        Mono<Product> productMonoBody = request.bodyToMono(Product.class);
+        String id = request.pathVariable("id");
+        Mono<Product> productMonoDb = productService.findById(id);
+        return productMonoDb.zipWith(productMonoBody, (productDb, productBody) -> {
+                    productDb.setName(productBody.getName());
+                    productDb.setPrice(productBody.getPrice());
+                    productDb.setPhoto(productBody.getPhoto());
+                    productDb.setCategory(productBody.getCategory());
+                    return productDb;
+                }).flatMap(productMono -> ServerResponse
+                        .created(request.uri())
+                        .body(productService.save(productMono), Product.class))
+                .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+    @Override
+    public Mono<ServerResponse> delete(ServerRequest request) {
+        String id = request.pathVariable("id");
+        Mono<Product> productMonoDb = productService.findById(id);
+        return productMonoDb.flatMap(product -> productService.remove(product)
+                .then(ServerResponse.noContent().build()))
+                .switchIfEmpty(ServerResponse.notFound().build());
     }
 
 }
