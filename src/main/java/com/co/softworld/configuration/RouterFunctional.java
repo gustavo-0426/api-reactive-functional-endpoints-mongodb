@@ -1,6 +1,7 @@
 package com.co.softworld.configuration;
 
 import com.co.softworld.handler.ProductHandler;
+import com.co.softworld.util.Utility;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -13,12 +14,12 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class RouterFunctional {
 
     @Bean
-    public RouterFunction<ServerResponse> routes(ProductHandler productHandler) {
-        return route(GET("/api/routerFunction/product"), request ->  productHandler.list())
-                .andRoute(GET("/api/routerFunction/product/{id}"), productHandler::detail)
-                .andRoute(POST("/api/routerFunction/product"), productHandler::save)
-                .andRoute(PUT("/api/routerFunction/product/{id}"), productHandler::update)
-                .andRoute(DELETE("/api/routerFunction/product/{id}"), productHandler::delete);
+    public RouterFunction<ServerResponse> routes(ProductHandler productHandler, Config config) {
+        Path path = Utility.builderPath(config);
+        return route(GET(path.getList()), request ->  productHandler.list())
+                .andRoute(GET(path.getDetail()), productHandler::detail)
+                .andRoute(POST(path.getSave()), productHandler::save)
+                .andRoute(PUT(path.getUpdate()), productHandler::update)
+                .andRoute(DELETE(path.getDelete()), productHandler::delete);
     }
-
 }

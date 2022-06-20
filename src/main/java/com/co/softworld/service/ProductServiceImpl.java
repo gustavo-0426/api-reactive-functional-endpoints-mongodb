@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-
 @Service
 public class ProductServiceImpl implements IProductService {
 
@@ -18,16 +16,6 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Flux<Product> findAll() {
         return productRepository.findAll();
-    }
-
-    @Override
-    public Flux<Product> findAllDataDriver() {
-        return productRepository.findAll()
-                .map(product -> {
-                    product.setName(product.getName().toUpperCase());
-                    return product;
-                })
-                .delayElements(Duration.ofSeconds(2));
     }
 
     @Override
