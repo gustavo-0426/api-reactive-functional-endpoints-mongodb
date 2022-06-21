@@ -5,7 +5,6 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +19,7 @@ public class Product {
     private String name;
     @NotNull
     private Double price;
-    @Valid
+    @NotNull
     private Category category;
     private String photo;
 }

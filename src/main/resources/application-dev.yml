@@ -13,5 +13,8 @@ config:
     save: /api/routerFunction/product
     update: /api/routerFunction/product/{id}
     delete: /api/routerFunction/product/{id}
+    upload: /api/routerFunction/product/upload
+    upload-id: /api/routerFunction/product/upload/{id}
+    photo: src/main/resources/photos/
 
 ## Include your configuration to Development Environment

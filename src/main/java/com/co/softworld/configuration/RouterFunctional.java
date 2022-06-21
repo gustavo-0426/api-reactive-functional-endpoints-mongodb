@@ -20,6 +20,8 @@ public class RouterFunctional {
                 .andRoute(GET(path.getDetail()), productHandler::detail)
                 .andRoute(POST(path.getSave()), productHandler::save)
                 .andRoute(PUT(path.getUpdate()), productHandler::update)
-                .andRoute(DELETE(path.getDelete()), productHandler::delete);
+                .andRoute(DELETE(path.getDelete()), productHandler::delete)
+                .andRoute(POST(path.getUpload()), productHandler::upload)
+                .andRoute(POST(path.getUploadId()), productHandler::uploadId);
     }
 }
