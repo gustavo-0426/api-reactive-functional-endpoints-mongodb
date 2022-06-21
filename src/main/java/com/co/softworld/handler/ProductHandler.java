@@ -11,8 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.FormFieldPart;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -27,6 +31,8 @@ public class ProductHandler implements IProductHandler {
     private IProductService productService;
     @Autowired
     private Config config;
+    @Autowired
+    private Validator validator;
 
     @Override
     public Mono<ServerResponse> upload(ServerRequest request) {
@@ -84,10 +90,20 @@ public class ProductHandler implements IProductHandler {
     public Mono<ServerResponse> save(ServerRequest request) {
         Mono<Product> productMono = request.bodyToMono(Product.class);
         return productMono
-                .flatMap(product -> productService.save(product))
-                .flatMap(product -> ServerResponse
-                        .created(request.uri())
-                        .bodyValue(product));
+                .flatMap(product -> {
+                    Errors errors = new BeanPropertyBindingResult(product, Product.class.getName());
+                    validator.validate(product, errors);
+                    if (errors.hasErrors())
+                        return Flux.fromIterable(errors.getFieldErrors())
+                                .map(fieldError -> String.format("Error: %s %s", fieldError.getField(), fieldError.getDefaultMessage()))
+                                .collectList()
+                                .flatMap(list -> ServerResponse.badRequest()
+                                        .bodyValue(list));
+                    return productService.save(product)
+                            .flatMap(productDb -> ServerResponse
+                                    .created(request.uri())
+                                    .bodyValue(productDb));
+                });
     }
 
     @Override

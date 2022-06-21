@@ -20,7 +20,7 @@ public class Product {
     private String name;
     @NotNull
     private Double price;
-    @Valid
+    @NotNull
     private Category category;
     private String photo;
 }
