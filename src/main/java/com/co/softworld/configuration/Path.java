@@ -9,4 +9,7 @@ public class Path {
     private String save;
     private String update;
     private String delete;
+    private String upload;
+    private String uploadId;
+    private String photo;
 }

@@ -6,6 +6,8 @@ import reactor.core.publisher.Mono;
 
 public interface IProductHandler {
 
+    Mono<ServerResponse> upload(ServerRequest request);
+    Mono<ServerResponse> uploadId(ServerRequest request);
     Mono<ServerResponse> list();
     Mono<ServerResponse> detail(ServerRequest request);
     Mono<ServerResponse> save(ServerRequest request);
