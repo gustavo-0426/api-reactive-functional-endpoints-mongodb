@@ -7,4 +7,5 @@ public interface IConstants {
     String DEFAULT_UPLOAD_ID = "/api/routerFunction/product/upload/{id}";
     String DEFAULT_PHOTO = "src/main/resources/photos/";
     String EXT_NAME_PHOTO = "_photo.jpg";
+    String SPACE = " ";
 }
