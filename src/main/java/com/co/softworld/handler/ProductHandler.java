@@ -20,6 +20,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
+import java.util.Optional;
 
 import static com.co.softworld.configuration.IConstants.EXT_NAME_PHOTO;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
@@ -112,10 +113,14 @@ public class ProductHandler implements IProductHandler {
         String id = request.pathVariable("id");
         Mono<Product> productMonoDb = productService.findById(id);
         return productMonoDb.zipWith(productMonoBody, (productDb, productBody) -> {
-                    productDb.setName(productBody.getName());
-                    productDb.setPrice(productBody.getPrice());
-                    productDb.setPhoto(productBody.getPhoto());
-                    productDb.setCategory(productBody.getCategory());
+                    if (Optional.ofNullable(productBody.getName()).isPresent())
+                        productDb.setName(productBody.getName());
+                    if (Optional.ofNullable(productBody.getPrice()).isPresent())
+                        productDb.setPrice(productBody.getPrice());
+                    if (Optional.ofNullable(productBody.getPhoto()).isPresent())
+                        productDb.setPhoto(productBody.getPhoto());
+                    if (Optional.ofNullable(productBody.getCategory()).isPresent())
+                        productDb.setCategory(productBody.getCategory());
                     return productDb;
                 }).flatMap(productMono -> ServerResponse
                         .created(request.uri())

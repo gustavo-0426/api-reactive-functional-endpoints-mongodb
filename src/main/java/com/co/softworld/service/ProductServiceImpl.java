@@ -24,6 +24,11 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public Mono<Product> findByName(String name) {
+        return productRepository.findByName(name);
+    }
+
+    @Override
     public Mono<Product> save(Product product) {
         return productRepository.save(product);
     }
