@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static com.co.softworld.util.Utility.builderPath;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -15,7 +16,7 @@ public class RouterFunctional {
 
     @Bean
     public RouterFunction<ServerResponse> routes(ProductHandler productHandler, Config config) {
-        Path path = Utility.builderPath(config);
+        Path path = builderPath(config);
         return route(GET(path.getList()), request ->  productHandler.list())
                 .andRoute(GET(path.getDetail()), productHandler::detail)
                 .andRoute(POST(path.getSave()), productHandler::save)
