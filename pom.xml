@@ -8,9 +8,9 @@
 		<version>2.6.7</version>
 	</parent>
 	<groupId>com.co.softworld</groupId>
-	<artifactId>reactive-api-functional</artifactId>
+	<artifactId>reactive-api-functional-endpoints</artifactId>
 	<version>1.0.0</version>
-	<name>reactive-api-functional</name>
+	<name>reactive-api-functional-endpoints</name>
 	<description>This is an api with functional endpoints</description>
 
 	<properties>
